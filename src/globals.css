@@ -1,0 +1,67 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ATN Brand Colors */
+    --atn-blue: #00365F;
+    --atn-red: #EF413D;
+    --atn-blue-light: #E8F4FC;
+    --atn-text: #333333;
+
+    --background: 0 0% 100%;
+    --foreground: 0 0% 20%; /* #333333 */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+    --primary: 207 100% 19%; /* #00365F */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 207 60% 95%; /* #E8F4FC */
+    --secondary-foreground: 207 100% 19%;
+    --muted: 207 60% 95%;
+    --muted-foreground: 207 20% 50%;
+    --accent: 207 60% 95%;
+    --accent-foreground: 207 100% 19%;
+    --destructive: 1 84% 59%; /* #EF413D */
+    --destructive-foreground: 0 0% 98%;
+    --border: 207 30% 88%;
+    --input: 207 30% 88%;
+    --ring: 207 100% 19%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.prose-answer h3 {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.prose-answer p {
+  margin-bottom: 0.5rem;
+}
+
+.prose-answer ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-answer li {
+  margin-bottom: 0.25rem;
+}
