@@ -1,9 +1,6 @@
 import React, { useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
 import { MessageCircleQuestion } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-
+import { questions as allQuestions } from "@/data/questions";
 import SearchBar from "@/components/faq/SearchBar";
 import CategoryFilter from "@/components/faq/CategoryFilter";
 import QuestionCard from "@/components/faq/QuestionCard";
@@ -13,13 +10,8 @@ export default function FAQ() {
   const [category, setCategory] = useState("all");
   const [openId, setOpenId] = useState(null);
 
-  const { data: questions = [], isLoading } = useQuery({
-    queryKey: ["questions"],
-    queryFn: () => base44.entities.Question.list("number", 100),
-  });
-
   const filtered = useMemo(() => {
-    return questions.filter((q) => {
+    return allQuestions.filter((q) => {
       const matchSearch =
         !search ||
         q.question.toLowerCase().includes(search.toLowerCase()) ||
@@ -27,7 +19,7 @@ export default function FAQ() {
       const matchCategory = category === "all" || q.category === category;
       return matchSearch && matchCategory;
     });
-  }, [questions, search, category]);
+  }, [search, category]);
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -57,29 +49,21 @@ export default function FAQ() {
       </p>
 
       {/* Questions */}
-      {isLoading ? (
-        <div className="space-y-4">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-24 rounded-2xl" />
-          ))}
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {filtered.map((q) => (
-            <QuestionCard
-              key={q.id}
-              question={q}
-              isOpen={openId === q.id}
-              onToggle={() => setOpenId(openId === q.id ? null : q.id)}
-            />
-          ))}
-          {filtered.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-slate-400 text-sm">Aucune question trouvée.</p>
-            </div>
-          )}
-        </div>
-      )}
+      <div className="space-y-3">
+        {filtered.map((q) => (
+          <QuestionCard
+            key={q.id}
+            question={q}
+            isOpen={openId === q.id}
+            onToggle={() => setOpenId(openId === q.id ? null : q.id)}
+          />
+        ))}
+        {filtered.length === 0 && (
+          <div className="text-center py-16">
+            <p className="text-slate-400 text-sm">Aucune question trouvée.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
